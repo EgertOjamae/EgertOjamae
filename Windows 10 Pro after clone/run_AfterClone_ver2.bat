@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File AfterClone_ver2.ps1
