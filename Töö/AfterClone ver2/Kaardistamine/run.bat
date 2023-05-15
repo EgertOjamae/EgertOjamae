@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File Kaardistamine.ps1

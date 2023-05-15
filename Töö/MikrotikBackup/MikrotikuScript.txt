@@ -1,0 +1,9 @@
+/user group add name=backup policy="ssh,test,ftp,read,policy,sensitive"
+
+/user add name=backup group=backup password=Tere123
+
+/ip service set ssh address=192.168.31.0/24
+
+/user ssh-keys import user=backup public-key-file=publicKeyFile.pub
+
+

@@ -1,0 +1,1 @@
+powershell.exe -executionpolicy bypass "C:\Users\Administrator\Desktop\getUsers.ps1"

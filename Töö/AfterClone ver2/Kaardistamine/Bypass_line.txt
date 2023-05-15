@@ -1,0 +1,4 @@
+#pead olema samas kaustas kus fail + admin õigused
+
+
+powershell -ExecutionPolicy Bypass -File file_name.ps1

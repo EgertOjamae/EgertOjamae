@@ -1,0 +1,63 @@
+#!/bin/bash
+
+addresses=(192.168.31.190 192.168.31.20)
+user=admin
+publicKeyFile=/home/administrator/.ssh/id_rsa.pub
+
+
+configureUserGroups(){
+
+	echo -e "\e[41m"
+	echo Seadistan grupi ja useri, praegune Mikrotiku aadress on $mikrotikAddress
+	echo -e "\e[0m"
+	
+	ssh $user@$mikrotikAddress /user group add name=backup policy="ssh,test,ftp,read,policy,sensitive"
+	ssh $user@$mikrotikAddress /user add name=backup group=backup password=Tere123
+
+}
+
+configureSSHService(){
+
+	echo -e "\e[41m"
+	echo Seadistan SSH servici, praegune Mikrotiku aadress on $mikrotikAddress
+	echo -e "\e[0m"
+	
+	ssh $user@$mikrotikAddress /ip service set ssh aadress=192.168.31.0/24
+
+}
+
+
+sendPublicKey(){
+
+	echo -e "\e[41m"
+	echo Kopeerin public võtme Mikrotiku peale, praegune Mikrotiku aadress on $mikrotikAddress
+	echo -e "\e[0m"
+	
+	scp $publicKeyFile $user@$mikrotikAddress:publicKeyFile.pub
+	
+	echo Kopeerin 3...
+	sleep 0.5
+	echo Kopeerin 2...
+	sleep 0.5
+	echo Kopeerin 1...
+	sleep 0.5
+	echo Kopeeritud ":)"
+	
+	echo -e "\e[41m"
+	echo Impordin SSH võtme: user=backup, praegune Mikrotiku aadress on $mikrotikAddress
+	echo -e "\e[0m"
+	
+	ssh $user@$mikrotikAddress /user ssh-keys import user=backup public-key-file=publicKeyFile.pub
+	
+}
+
+#Enter loop
+
+for i in "${addresses[@]}"
+do
+	mikrotikAddress=$i
+	#callFunctions
+	configureUserGroups
+	configureSSHService
+	sendPublicKey
+done

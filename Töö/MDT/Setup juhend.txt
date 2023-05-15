@@ -1,0 +1,102 @@
+Eeldused:
+
+Loo AD peale uus admin kasutaja 
+mdtadmin   - tuleb lisada gruppi Domain Admins
+complexpassword
+
+
+1) Installeeri Windows Assesment and Deployment Kit 
+https://go.microsoft.com/fwlink/?linkid=2086042
+
+
+Vajalikud paketid - 
+*Deployment Tools 
+*User State Migration Tool
+
+
+
+2) Installeeri Windows Assesment and Deployment Kit Add-Ons
+https://go.microsoft.com/fwlink/?linkid=2087112
+
+
+3) Installeeri Microsot Deployment Toolkit
+https://www.microsoft.com/en-us/download/details.aspx?id=54259
+
+
+4) Tee DeploymentWorkbenchi peal uus deplyoment share
+*Suuna I:\Deployment  peale 
+*Share name - \\server.kastre.ee\DeploymentShare$
+*Descripion - MDT Tarkvarakeskus
+*Kõik ASK linnukesed maha
+*Pane käsitsi I:\Deployment kaustale advanced share optioni alt everyone read only 
+
+
+5) Mounti külge Windows 10pro süsteemiketas
+
+5.1) Import Operating System (vajalik pärast Custom deployment jaoks)
+*Full set of source files
+*Vali külge mountitud Win10Pro
+*Destination Dir name - Windows 10 Pro x64
+*Kustuta ära kõik peale Windows 10 Pro (märgi linnuke Force)
+
+
+
+6) New Task Sequence
+*ID - TarkvaraKeskus
+*Name - TarkvaraKeskus
+*Custom Task Sequence
+
+Tee TarkvaraKeskus sequence lahti ja märgi ära linnukesed: 
+This can run only on specified client platforms
+*All x64 Windows 10 Client 
+*All x64 Windows 7 and newer
+
+
+
+7) MDT Tarkvarakeskus - propertis
+*Rules 
+
+OSInstall=YES
+SkipCapture=YES
+SkipAdminPassword=YES
+SkipProductKey=YES
+SkipComputerBackup=YES
+SkipBitLocker=YES
+_SMSTSOrgName=Kaughaldus OU
+SkipSummary=YES
+
+*Boostrap.ini
+UserID=mdtadmin
+UserPassword=Tere123
+
+
+
+
+
+8)New Application
+saab lisada nii exe kui ka msi 
+saab updatemiseks kasutada 
+käskude leidmiseks kasuta:
+https://silentinstallhq.com/
+
+
+
+
+
+
+
+
+xx) Update Deployment share
+
+
+
+
+
+#Abiks lingid:
+https://msitpros.com/?p=935       (saab teha otse lingi, mis teab tasksequenci ID'd, et saaks otse mingit jada käivitada)
+https://gal.vin/posts/old/build-and-capture-windows-10-2004-20h1-reference-image/             (kogu protsess lühidalt)
+https://www.techrepublic.com/article/mdt-automating-deployments-using-customsettings-ini/     (mõned reeglite näited)
+
+
+
+UDI Designer - et saaks ise frontend kujundada
